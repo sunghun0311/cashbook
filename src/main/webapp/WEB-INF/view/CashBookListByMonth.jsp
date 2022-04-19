@@ -20,8 +20,9 @@
 </head>
 <body class="container">
    <%
+   		// CashBookListByMonthController에 요청값 받아오기
 		List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list"); // list는 현재 출력못하고, size로 확인
-		int y = (Integer)request.getAttribute("y");
+		int y = (Integer)request.getAttribute("y"); // 
 		int m = (Integer)request.getAttribute("m");
 		
 		// int today = (Integer)request.getAttribute("today");

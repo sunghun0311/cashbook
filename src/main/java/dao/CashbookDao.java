@@ -2,7 +2,7 @@ package dao;
 import java.util.*;
 import vo.*;
 import java.sql.*;
-
+// 모델(View)
 public class CashbookDao {
 	public List<Map<String, Object>> selectCashbookListByMonth(int y, int m) { // y=year, m=month // <cashbook>으로 받을필요가없어서 Map타입으로
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

@@ -30,8 +30,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// 오늘날짜가 아닐 수도 있으니 밑 코드에 맞는 날짜부터 우선적으로 구해야함.
 		if(request.getParameter("y") != null) {
-			y = Integer.parseInt(request.getParameter("y"));
-			
+			y = Integer.parseInt(request.getParameter("y"));			
 		}
 		if(request.getParameter("m") != null) {
 			m = Integer.parseInt(request.getParameter("m"));
@@ -47,7 +46,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		}
 		
 		System.out.println(y+" <-- y");
-		System.out.println(y+" <-- m");
+		System.out.println(m+" <-- m");
 		
 		
 		/*
@@ -67,7 +66,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		// 어떤 날이 올지 모르기에 날짜 구하고 코드가 들어가야함.
 		firstDay.set(Calendar.YEAR, y);
 		firstDay.set(Calendar.MONTH, m-1);
-		firstDay.set(Calendar.DATE,1) ;	// 오늘날짜 2022.04.01
+		firstDay.set(Calendar.DATE, 1); // 오늘날짜 2022.04.01
 		int dayOfWeek = firstDay.get(Calendar.DAY_OF_WEEK);
 		// dayOfWeek메서드는 일 1, 월 2, ..., 토 7
 		// 그래서
@@ -97,7 +96,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		  
 		 */
 		
-		// 모델값 넘기기 (request.으로 8개를 따로묶어서 넘기거나, Map으로 깔끔하게 넘기기)
+		// 모델값 CashBookListByMonth로 넘기기 (request.으로 8개를 따로묶어서 넘기거나, Map으로 깔끔하게 넘기기)
 		request.setAttribute("startBlank", startBlank);
 		request.setAttribute("endDay", startBlank);
 		request.setAttribute("endBlank", startBlank);
@@ -108,7 +107,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		request.setAttribute("m", m); // jsp파일을 넘길 수 있음 
 		
 		// request.setAttribute("today", today);
-		// 값을 넘겼으니 View가서 출력
+		// 값을 넘겼으니 View(Dao)가서 출력
 		
 		// 3) 뷰 포워딩
 		request.getRequestDispatcher("/WEB-INF/view/CashBookListByMonth.jsp").forward(request,response);
