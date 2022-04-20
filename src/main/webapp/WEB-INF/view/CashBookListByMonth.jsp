@@ -2,12 +2,8 @@
 <%@ page import = "java.util.*" %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>CashBookListByMonth</title>
 </head>
 <meta charset="UTF-8">
-<title>CashBookListByMonth</title>
 <!-- 부트스트랩 -->
    <!-- Latest compiled and minified CSS -->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -44,7 +40,6 @@
 		System.out.println(totalTd + " <- totalTd CashBookListByMonth.jsp");
 	%>
 	<h2><%=y%>년 <%=m%>월</h2>
-
 	<div>
 		<a href="<%=request.getContextPath() %>/CashBookListByMonthController?y=<%=y%>&m=<%=m-1%>">이전달</a>
 		<a href="<%=request.getContextPath() %>/CashBookListByMonthController?y=<%=y%>&m=<%=m+1%>">다음달</a>
@@ -87,16 +82,18 @@
 						<td class="<%=c%>">
                      	   	<%=i-startBlank%>
                       	   	<a href="<%=request.getContextPath()%>/InsertCashBookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-light">입력</a>
-                     	   	<div>                     	   	
+                     	   	<div><!-- a태그는 get방식, form으로 넘김 -->                     	   	
                      	   		<%
                      	   			// 해당 날짜의 cashbook 목록 출력
                      	   			for(Map map : list) {	
                      	   				if((Integer)map.get("day") == (i-startBlank)) {
                      	   		%>
                      	   					<div>
-	                     	   					[<%=map.get("kind")%>] 
-	                     	   					<%=map.get("cash")%>원
-	                     	   					<%=map.get("memo")%>...
+                     	   						<a href="<%=request.getContextPath()%>/CashBookOneController?cashbookNo=<%=map.get("cashbookNo")%>">
+		                     	   					[<%=map.get("kind")%>] 
+		                     	   					<%=map.get("cash")%>원
+		                     	   					<%=map.get("memo")%>...
+		                     	   				</a>	
                      	   					</div>
                      	   		<%			
                      	   				}

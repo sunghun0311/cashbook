@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.CashbookDao;
+import dao.CashBookDao;
 // Dao를 불러옴
 @WebServlet("/CashBookListByMonthController")
 public class CashBookListByMonthController extends HttpServlet {
@@ -65,7 +65,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// 어떤 날이 올지 모르기에 날짜 구하고 코드가 들어가야함.
 		firstDay.set(Calendar.YEAR, y);
-		firstDay.set(Calendar.MONTH, m-1);
+		firstDay.set(Calendar.MONTH, m-1); // 자바 달력API는 1월을 0으로, 2월을 1로, ... 12월을 11로 설정되어있다.
 		firstDay.set(Calendar.DATE, 1); // 오늘날짜 2022.04.01
 		int dayOfWeek = firstDay.get(Calendar.DAY_OF_WEEK);
 		// dayOfWeek메서드는 일 1, 월 2, ..., 토 7
@@ -88,7 +88,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		int totalTd = startBlank + endDay + endBlank;
 		
 		// 2) 모델값(월별 가계부 리스트)을 반환하는 비지니스로직(모델) 호출
-		CashbookDao cashbookDao = new CashbookDao();
+		CashBookDao cashbookDao = new CashBookDao();
 		List<Map<String, Object>> list = cashbookDao.selectCashbookListByMonth(y, m);
 		
 		/*
@@ -98,9 +98,9 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// 모델값 CashBookListByMonth로 넘기기 (request.으로 8개를 따로묶어서 넘기거나, Map으로 깔끔하게 넘기기)
 		request.setAttribute("startBlank", startBlank);
-		request.setAttribute("endDay", startBlank);
-		request.setAttribute("endBlank", startBlank);
-		request.setAttribute("totalTd", startBlank);
+		request.setAttribute("endDay", endDay);
+		request.setAttribute("endBlank", endBlank);
+		request.setAttribute("totalTd", totalTd);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("y", y);

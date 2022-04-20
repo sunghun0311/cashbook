@@ -1,6 +1,6 @@
 package vo;
 
-public class Cashbook {
+public class CashBook {
 	private int cashbookNo;
 	private String cashDate;
 	private String kind;
