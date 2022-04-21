@@ -39,6 +39,9 @@
 		System.out.println(endBlank + " <- endBlank CashBookListByMonth.jsp");
 		System.out.println(totalTd + " <- totalTd CashBookListByMonth.jsp");
 	%>
+	<div>
+		<a href="<%=request.getContextPath() %>/TagController">tags</a>
+	</div>
 	<h2><%=y%>년 <%=m%>월</h2>
 	<div>
 		<a href="<%=request.getContextPath() %>/CashBookListByMonthController?y=<%=y%>&m=<%=m-1%>">이전달</a>
