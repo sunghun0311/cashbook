@@ -1,9 +1,9 @@
 package dao;
 import java.util.*;
-
+import javax.servlet.RequestDispatcher;
 import vo.*;
 import java.sql.*;
-// 모델(View)
+// 모델(Dao)
 public class CashBookDao {
 	public void insertCashbook(CashBook cashbook, List<String> hashtag ) { // Insert지만 result가 필요
 		Connection conn = null;
@@ -125,7 +125,7 @@ public class CashBookDao {
 	      try {
 	    	  Class.forName("org.mariadb.jdbc.Driver"); // 로그인 정보를 가지고 있는 DBUtil을 만들어 사용가능
 	    	  conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-	    	  String sql = "SELECT cashbook_no cashbookNo, cash_date cashDate, kind, cash, memo, create_date createDate, update_date updateDate From cashbook WHER  FROM cashbook WHERE cashbook_no = ?";
+	    	  String sql = "SELECT cashbook_no cashbookNo, cash_date cashDate, kind, cash, memo, create_date createDate, update_date updateDate From cashbook WHERE cashbook_no = ?";
 	    	  stmt = conn.prepareStatement(sql);
 	    	  stmt.setInt(1, cashbookNo); // sql(쿼리문)에 있는 1번째 물음표는 cashbookNo이다.
 	    	  rs = stmt.executeQuery();
@@ -133,7 +133,7 @@ public class CashBookDao {
 	    	  // 쿼리를 실행
 	    	  if(rs.next()) {
 	    		  cashbook = new CashBook(); // cashbook에 새로운 객체생성한걸 저장
-	    		  cashbook.setCashbookNo(rs.getInt("cashbookNo"));
+	    		  cashbook.setCashbookNo(rs.getInt("cashbookNo")); // * 쿼리에 없으면 넘어가긴 넘어가도 DB에서 값을 안받아와서 null로 넘어감. cashbook_no cashbook_no,  cashbook_no cashbookNo cashbookNo 이렇게 하면됨.
 	    		  cashbook.setCashDate(rs.getString("cashDate"));
 	    		  cashbook.setKind(rs.getString("kind"));
 	    		  cashbook.setCash(rs.getInt("cash"));
