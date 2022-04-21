@@ -21,8 +21,8 @@ public class CashBookOneController extends HttpServlet {
 		System.out.println(cashbookNo + "<- CashBookOneController");
 		
 		// cashbook에 selectCashBookOne(Dao)값을 저장
-		CashBook cashbook = cashbookDao.selectCashBookOne(cashbookNo);
-		request.setAttribute("cashbook", cashbook); // request.getAttribute에 담아서 jsp파일로 보냄(보냄)
+		CashBook cashbookOne = cashbookDao.selectCashBookOne(cashbookNo);
+		request.setAttribute("cashbookOne", cashbookOne); // request.getAttribute에 담아서 jsp파일로 보냄(보냄)
 		
 		// 뷰 포워딩
 		request.getRequestDispatcher("/WEB-INF/view/CashBookOne.jsp").forward(request, response);

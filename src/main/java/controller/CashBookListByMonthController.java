@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.CashBookDao;
+import vo.*;
+
 // Dao를 불러옴
 @WebServlet("/CashBookListByMonthController")
 public class CashBookListByMonthController extends HttpServlet {
@@ -26,6 +29,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		// int today = now.get(Calendar.DATE); // 오늘 날짜(DAY) 오늘 DAY -> 19일
 		
 		int startBlank = 0; // 일 0, 월 1, ... , 토 6 -> 1일의 요일을 이용하여 구한다.
+		
 		// 시작시 필요한 공백 <TD>의 갯수를 구하는 알고리즘 -> startBlank
 		
 		// 오늘날짜가 아닐 수도 있으니 밑 코드에 맞는 날짜부터 우선적으로 구해야함.
@@ -34,7 +38,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		}
 		if(request.getParameter("m") != null) {
 			m = Integer.parseInt(request.getParameter("m"));
-			
+				
 		}
 		if(m==0) { // 나오는 값이 0월이면 전 년도
 			m = 12;
@@ -54,6 +58,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		  2) endDay
 		  3) endBlank
 		  4) totalBlank 위 3개 다 더함
+		  
 		 
 		 */
 		
@@ -80,6 +85,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		// 3) 
 		int endBlank = 0; // 0이니까 else로 바로??
 		if((startBlank+endDay)%7 != 0) { // 나누어 지지않으니까 나머지를 빼기 // 나머지를 0으로 해서(%7 == 0) 7의 배수로 할수도 있다.
+	
 			// 7에서 startBlank+endDay의 7로 나눈 나머지값을 빼면
 			endBlank = 7-((startBlank+endDay)%7);
 			
@@ -88,8 +94,8 @@ public class CashBookListByMonthController extends HttpServlet {
 		int totalTd = startBlank + endDay + endBlank;
 		
 		// 2) 모델값(월별 가계부 리스트)을 반환하는 비지니스로직(모델) 호출
-		CashBookDao cashbookDao = new CashBookDao();
-		List<Map<String, Object>> list = cashbookDao.selectCashbookListByMonth(y, m);
+		CashBookDao cashBookDao = new CashBookDao();
+		List<Map<String, Object>> list = cashBookDao.selectCashbookListByMonth(y, m);
 		
 		/*
 		 달력출력에 필요한 모델값(1), 2), 3), 4)) + 데이터베이스에서 반환된 모델값(list, 출력년도(y), 출력월(m)) + 오늘날짜(today)
@@ -108,6 +114,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// request.setAttribute("today", today);
 		// 값을 넘겼으니 View(Dao)가서 출력
+		// m(dao) v(jsp) c(controller)
 		
 		// 3) 뷰 포워딩
 		request.getRequestDispatcher("/WEB-INF/view/CashBookListByMonth.jsp").forward(request,response);
