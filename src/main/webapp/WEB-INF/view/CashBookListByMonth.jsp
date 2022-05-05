@@ -20,6 +20,7 @@
 		List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list"); // list는 현재 출력못하고, size로 확인
 		int y = (Integer)request.getAttribute("y"); // 
 		int m = (Integer)request.getAttribute("m");
+		String memberId = request.getAttribute("memberId");
 		
 		// int today = (Integer)request.getAttribute("today");
 		int startBlank = (Integer)request.getAttribute("startBlank");
@@ -32,6 +33,7 @@
 		System.out.println(list.size() + " <- list.size() CashBookListByMonth.jsp"); // list는 현재 출력못하고, size로 확인
 		System.out.println(y + " <- y CashBookListByMonth.jsp");
 		System.out.println(m + " <- m CashBookListByMonth.jsp");
+		System.out.println(m + " <- m CashBookListByMonth.jsp");
 		
 		// System.out.println(today + " <- today CashBookListByMonth.jsp");
 		System.out.println(startBlank + " <- startBlank CashBookListByMonth.jsp");
@@ -39,6 +41,10 @@
 		System.out.println(endBlank + " <- endBlank CashBookListByMonth.jsp");
 		System.out.println(totalTd + " <- totalTd CashBookListByMonth.jsp");
 	%>
+	<div>
+		<%=session.getAttribute("sessionMemberId") %>님 반갑습니다.
+		<a href="<%=request.getContextPath() %>/LogoutController">로그아웃</a><!-- 컨트롤러에서 먼저 막았기때문에 로그인 된사람만 볼수있음(로그아웃을) -->
+	</div>
 	<div>
 		<a href="<%=request.getContextPath() %>/TagController">tags</a>
 	</div>

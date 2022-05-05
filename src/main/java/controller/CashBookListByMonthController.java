@@ -11,14 +11,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.CashBookDao;
 import vo.*;
+
+
 
 // Dao를 불러옴
 @WebServlet("/CashBookListByMonthController")
 public class CashBookListByMonthController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		  HttpSession session = request.getSession();
+	      String sessionMemberId = (String)session.getAttribute("sessionMemberId");
+	      if(sessionMemberId == null) {
+	         // 로그인 되지 않은 경우
+	         response.sendRedirect(request.getContextPath()+"/LoginController"); // 로그인을 하지않으면 cashbooklist가 아닌 로그인컨트롤러로 감. -> 로그인하지않으면 못들어옴(막아버림)
+	         return;
+	      }
+
+		// 위 코드는 로그인이 되지 않았을때 다시 LoginController로 돌아가서 로그인을 할 수있게 하는 코드이다.
+		// 밑 코드는 로그인이 되었을 때 실행되는 코드이다.
+		
 		// 1) 월별 가계부 리스트 요청 분석
 		// 이번달 년도와 이번달 달 구하는 메서드
 		Calendar now = Calendar.getInstance(); // 오늘날짜 2022.04.19
@@ -95,7 +110,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// 2) 모델값(월별 가계부 리스트)을 반환하는 비지니스로직(모델) 호출
 		CashBookDao cashBookDao = new CashBookDao();
-		List<Map<String, Object>> list = cashBookDao.selectCashbookListByMonth(y, m);
+		List<Map<String, Object>> list = cashBookDao.selectCashbookListByMonth(y, m, memberId);
 		
 		/*
 		 달력출력에 필요한 모델값(1), 2), 3), 4)) + 데이터베이스에서 반환된 모델값(list, 출력년도(y), 출력월(m)) + 오늘날짜(today)
@@ -111,6 +126,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("y", y);
 		request.setAttribute("m", m); // jsp파일을 넘길 수 있음 
+		request.setAttribute("memberId, memberId");
 		
 		// request.setAttribute("today", today);
 		// 값을 넘겼으니 View(Dao)가서 출력

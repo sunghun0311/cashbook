@@ -27,7 +27,7 @@
 		%>
 				<tr>
 					<td><%=map.get("rank")%></td>
-					<td><a href=""><%=map.get("tag")%></a></td>
+					<td><a href="<%=request.getContextPath()%>/HashtagOneController?tag=<%=map.get("tag")%>"># <%=map.get("tag")%></a></td>
 					<td><%=map.get("cnt")%></td>
 				</tr>
 		<%			

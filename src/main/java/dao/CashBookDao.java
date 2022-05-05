@@ -5,7 +5,7 @@ import vo.*;
 import java.sql.*;
 // 모델(Dao)
 public class CashBookDao {
-	public void insertCashbook(CashBook cashbook, List<String> hashtag ) { // Insert지만 result가 필요
+	public void insertCashbook(CashBook cashbook, List<String> hashtag, String memberId) { // Insert지만 result가 필요
 		Connection conn = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
@@ -14,8 +14,8 @@ public class CashBookDao {
 	         conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
 	         conn.setAutoCommit(false); // 자동커밋을 해제
 	         
-	         String sql = "INSERT INTO cashbook(cash_date,kind,cash,memo,update_date,create_date)"
-	        		 + " VALUES(?,?,?,?,NOW(),NOW())";
+	         String sql = "INSERT INTO cashbook(cash_date,kind,cash,memo,update_date,create_date,member_id)"
+	        		 + " VALUES(?,?,?,?,NOW(),NOW(),?)";
 	         
 	         // INSERT쿼리 실행 후 자동 증가 키값 받아오기 JDBC API
 	         // insert + select -> 입력(insert)하자마자 방금 생성된 행의 키값 select(누가 보기도전에)
@@ -60,7 +60,7 @@ public class CashBookDao {
 	    }
 	}
 	
-	public List<Map<String, Object>> selectCashbookListByMonth(int y, int m) { // y=year, m=month // <cashbook>으로 받을필요가없어서 Map타입으로
+	public List<Map<String, Object>> selectCashbookListByMonth(int y, int m, String memberId) { // y=year, m=month // <cashbook>으로 받을필요가없어서 Map타입으로
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		/*
@@ -85,7 +85,7 @@ public class CashBookDao {
 	            + "          ,cash"
 	            + "          ,LEFT(memo, 5) memo"		
 	            + "       FROM cashbook"
-	            + "       WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ?"
+	            + "       WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ? AND member_id=?"
 	            + "       ORDER BY DAY(cash_date) ASC, kind ASC";
 	      try {
 	         Class.forName("org.mariadb.jdbc.Driver");
@@ -93,10 +93,12 @@ public class CashBookDao {
 	         stmt = conn.prepareStatement(sql);
 	         stmt.setInt(1, y);
 	         stmt.setInt(2, m);
+	         stmt.setString(3, memberId);
 	         rs = stmt.executeQuery();
 	         while(rs.next()) {
 	            Map<String, Object> map = new HashMap<String, Object>();
 	            map.put("cashbookNo", rs.getInt("cashbookNo"));
+	            map.put("memberId", rs.getString("memberId"));
 	            map.put("day", rs.getInt("day"));
 	            map.put("kind", rs.getString("kind"));
 	            map.put("cash", rs.getInt("cash"));
